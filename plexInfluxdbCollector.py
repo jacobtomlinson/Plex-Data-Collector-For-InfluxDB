@@ -31,6 +31,8 @@ class plexInfluxdbCollector():
         self.influx_client = InfluxDBClient(
             self.config.influx_address,
             self.config.influx_port,
+            username=self.config.influx_username,
+            password=self.config.influx_password,
             database=self.config.influx_database,
             ssl=self.config.influx_ssl,
             verify_ssl=self.config.influx_verify_ssl
@@ -489,6 +491,8 @@ class configManager():
         self.influx_address = self.config['INFLUXDB']['Address']
         self.influx_port = self.config['INFLUXDB'].getint('Port', fallback=8086)
         self.influx_database = self.config['INFLUXDB'].get('Database', fallback='plex_data')
+        self.influx_username = self.config['INFLUXDB'].get('Username', fallback='root')
+        self.influx_password = self.config['INFLUXDB'].get('Password', fallback='root')
         self.influx_ssl = self.config['INFLUXDB'].getboolean('SSL', fallback=False)
         self.influx_verify_ssl = self.config['INFLUXDB'].getboolean('Verify_SSL', fallback=True)
 
