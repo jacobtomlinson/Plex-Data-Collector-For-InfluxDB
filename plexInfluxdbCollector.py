@@ -475,7 +475,8 @@ class configManager():
 
         self._load_config_values()
         self._validate_plex_servers()
-        self._validate_logging_level()
+        if self.logging:
+            self._validate_logging_level()
         print('Configuration Successfully Loaded')
 
     def _load_config_values(self):
@@ -498,9 +499,10 @@ class configManager():
 
         #Logging
         self.logging = self.config['LOGGING'].getboolean('Enable', fallback=False)
-        self.logging_level = self.config['LOGGING']['Level'].lower()
-        self.logging_file = self.config['LOGGING']['LogFile']
-        self.logging_censor = self.config['LOGGING'].getboolean('CensorLogs', fallback=True)
+        if self.logging:
+            self.logging_level = self.config['LOGGING']['Level'].lower()
+            self.logging_file = self.config['LOGGING']['LogFile']
+            self.logging_censor = self.config['LOGGING'].getboolean('CensorLogs', fallback=True)
 
         if servers:
             self.plex_servers = self.config['PLEX']['Servers'].replace(' ', '').split(',')
